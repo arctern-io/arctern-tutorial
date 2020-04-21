@@ -104,7 +104,7 @@ def draw_choropleth_map(spark):
     df.show(20, False)
     df.createOrReplaceTempView("nyc_taxi")
 
-    res = spark.sql("select ST_GeomFromText(buildingtext_dropoff) as polygon, passenger_count as w from nyc_taxi")
+    res = spark.sql("select ST_GeomFromText(buildingtext_dropoff) as polygon, passenger_count as w from nyc_taxi where (buildingtext_dropoff!='')")
 
     vega = vega_choroplethmap(1900, 1410, [-73.994092, 40.753893, -73.977588, 40.759642], "blue_to_red", [2.5, 5], 1.0, 'EPSG:4326')
     res = choroplethmap(vega, res)
